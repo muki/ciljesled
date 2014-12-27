@@ -101,6 +101,13 @@
                     document.location.href = 'http://muki.webfactional.com/ciljesled/login.html';
                 }
             });
+            
+            FB.getLoginStatus(function(r) {
+                console.log(r);
+                if (!r.authResponse) {
+                    document.location.href = 'http://muki.webfactional.com/ciljesled/';
+                }
+            });
         };
 
          // Load the SDK asynchronously
