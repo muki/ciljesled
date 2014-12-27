@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Ciljesled</title>
+    <link rel="shortcut icon" href="">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/datepicker.css">
+    <style>
+        body {
+            padding-top: 50px;
+        }
+        .starter-template {
+            padding: 40px 15px;
+            text-align: center;
+        }
+        .ciljprogress {
+            float: right;
+        }
+        .deleteme {
+            cursor: pointer;
+            color: #ffffff;
+        }
+        .goaltitlespan {
+            padding-right: 20px;
+        }
+    </style>
+
+    <!--[if IE]>
+        <script src="https://cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <script src="../js/bootstrap-datepicker.js"></script>
+
+    <script src="../js/moment.js"></script>
+    <script>
+        moment.locale('sl');
+    </script>
+
+    <script src="../js/sweet-alert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/sweet-alert.css">
+
+    <script src="../js/cilji.js"></script>
+</head>
+
+<body>
+
+    <div id="fb-root"></div>
+
+    <script>
+        var fbid;
+
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '580003755476508',
+                status: true, // check login status
+                cookie: true, // enable cookies to allow the server to access the session
+                xfbml: true, // parse XFBML
+                version: 'v2.2'
+            });
+
+            // Here we subscribe to the auth.authResponseChange JavaScript event. This event is fired
+            // for any authentication related change, such as login, logout or session refresh. This means that
+            // whenever someone who was previously logged out tries to log in again, the correct case below 
+            // will be handled. 
+            FB.Event.subscribe('auth.authResponseChange', function (response) {
+                // Here we specify what we do with the response anytime this event occurs. 
+                if (response.status === 'connected') {
+                    // The response object is returned with a status field that lets the app know the current
+                    // login status of the person. In this case, we're handling the situation where they 
+                    // have logged in to the app.
+                    console.log(response);
+                    console.log(response.authResponse.userID);
+
+                    fbid = response.authResponse.userID;
+                    dostuff();
+
+                } else if (response.status === 'not_authorized') {
+                    // In this case, the person is logged into Facebook, but not into the app, so we call
+                    // FB.login() to prompt them to do so. 
+                    // In real-life usage, you wouldn't want to immediately prompt someone to login 
+                    // like this, for two reasons:
+                    // (1) JavaScript created popup windows are blocked by most browsers unless they 
+                    // result from direct interaction from people using the app (such as a mouse click)
+                    // (2) it is a bad experience to be continually prompted to login upon page load.
+                    document.location.href = 'http://muki.webfactional.com/ciljesled/login.html';
+                } else {
+                    // In this case, the person is not logged into Facebook, so we call the login() 
+                    // function to prompt them to do so. Note that at this stage there is no indication
+                    // of whether they are logged into the app. If they aren't then they'll see the Login
+                    // dialog right after they log in to Facebook. 
+                    // The same caveats as above apply to the FB.login() call here.
+                    document.location.href = 'http://muki.webfactional.com/ciljesled/login.html';
+                }
+            });
+        };
+
+         // Load the SDK asynchronously
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Ciljesled</a>
+            </div>
+
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Cilji</a>
+                    </li>
+                    <li><a href="../nastavitve">Nastavitve</a>
+                    </li>
+                    <li><a href="../../goalpost/">English</a>
+                    </li>
+                </ul>
+            </div>
+            <!--.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="container cilji">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Cilji:</h1>
+            </div>
+        </div>
+
+        <div class="row controls">
+            <div class="col-md-12">
+                <button type="button" data-toggle="modal" data-target="#addgoal" class="btn btn-default">Dodaj cilj</button>
+            </div>
+        </div>
+        
+        <footer style="padding-top: 50px;">
+            <div class="row">
+                <div class="col-md-12">
+                    <p style="text-align: center;"><a href="">Change language to English</a> | Z <span class="glyphicon glyphicon-heart"></span> iz Ljubljane. | Nobene pravice pridržane. | <a href="">Github</a></p>
+                </div>
+            </div>
+        </footer>
+        
+    </div>
+
+    <div id="addgoal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Dodaj cilj</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="goaltitle">*Tvoj cilj:</label>
+                            <input type="text" class="form-control" id="goaltitle" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="goaldeadline">*Datum izpolnitve:</label>
+                            <input type="text" class="form-control" id="goaldeadline" placeholder="" data-date-format="dd.mm.yyyy">
+                        </div>
+                        <div class="form-group">
+                            <label for="goaldescription">Opis tvojega cilja:</label>
+                            <textarea class="form-control" rows="3" id="goaldescription"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zapri</button>
+                    <button type="button" class="btn btn-primary" id="savegoal">Shrani</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</body>
+
+</html>
