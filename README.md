@@ -15,7 +15,7 @@ Ko si izbereš cilj, Ciljesledu poveš, do kdaj ga želiš doseči. Ciljesledov 
 
 ### Inštalacija
 
-Dodaj django app, ki ga najdeš v <code>cefizelj_django</code>. Zveži URLje v svojem url.py in nastavi crontask: <code>0 7 * * * curl http://link.do/ciljesled/sendemails/</code>.
+Dodaj django app, ki ga najdeš v <code>ciljesled_django</code>. Zveži URLje v svojem url.py in nastavi crontask: <code>0 7 * * * curl http://link.do/ciljesled/sendemails/</code>.
 
 Fajle iz <code>ciljesled</code> oz. <code>goalpost</code> (odvisno od jezika, ki si ga želiš) postavi nekam, kjer ti odgovarjajo in uredi linke pri ajax klicih. Ne pozabi ustvariti FB appa in spremeniti ID.
 
